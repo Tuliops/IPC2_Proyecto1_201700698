@@ -1,8 +1,12 @@
 #-------import-------
 import xml.etree.ElementTree as ET
 
-
+from ListaPisos import *
+from ListaPatrones import ListaPatrones
 #----------------------
+pisos = ListaPisos()
+patrones = ListaPatrones()
+#---------------------
 def MenuPrincipal(): 
     while True:
         # Mostramos el menu
@@ -17,8 +21,7 @@ def MenuPrincipal():
 
         elif opcionMenu=="2":
             print("---->¨Pisos y Patrones ")
-                
-                    
+            choose()
         elif opcionMenu=="3":
             print(" Mostrar Grafica ...")
            
@@ -67,41 +70,60 @@ def elementTree(ruta):
     #Leer los Nombres de los Pisos 
     for r in raiz:
         nombre = r.text.replace('\n','')
-        print(r.attrib['nombre'],nombre)
-        print("--Matriz-----")
+        
+       
+        nombre = r.attrib['nombre']
+        nombre = str(nombre)
+        
+        R = ''
+        C = ''
+        F = ''
+        
+        S = ''
         for sub in r:
-            R = ''
-            C = ''
-            F = ''
-            S = ''
+           
             tag = sub.tag 
             if tag =='R': 
                 tag = tag.replace('\ ','')
                 R = sub.text
-                print("R = ",R)
+                R = str(R)
+                
             elif tag =='C': 
                 tag = tag.replace('\ ','')
                 C = sub.text
-                print("C = ",C)
+                C = str(C)
+             
             elif tag =='F': 
                 tag = tag.replace('\ ','')
                 F = sub.text
-                print("F = ",F)
+                F = str(F)
+              
             elif tag =='S': 
                 tag = tag.replace('\ ','')
                 S = sub.text
-                print("S = ",S)
-            for p in sub :
+                S = str(S)
+        piso = pisos.insertarPiso(nombre, R, C, F, S)
+        for p in sub :
                 
-                Codigo = p.text.replace('\n', '')
-                nombreCodigo = p.attrib['codigo']
-                
-               
+            Codigo = p.text.replace('\n', '')
+            nombreCodigo = p.attrib['codigo']
+            nombreCodigo = str(nombreCodigo)
+            piso.patrones.insertar(nombreCodigo, Codigo)
+        
 
-
-
-
-                print('\t','\t Nombre de Codigo ',nombreCodigo,'\n', '\t\tCodigo --->',Codigo)
+def choose():
+        while True:
+            
+            pisos.mostrarNombres()
+            print("Esctiba el nombre")
+            name = input()      
+            pisos.mostrarPatronesPorNombre(name)
+            print("salir a menu Principal Precione E")
+            if name == 'E':
+                break
+            
+          
 if __name__ == "__main__":
     print(xpath)
     elementTree(xpath)
+    MenuPrincipal()
