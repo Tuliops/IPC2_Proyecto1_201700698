@@ -1,0 +1,6 @@
+digraph {
+	1 [label=B filename=1]
+	node [color=black shape=record style=filled]
+	2 [label=B filename=2]
+	node [color=black shape=record style=filled]
+}

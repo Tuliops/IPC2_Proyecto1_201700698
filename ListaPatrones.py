@@ -32,4 +32,25 @@ class ListaPatrones:
             print('Cadena ', tmp.getCadena())
             tmp = tmp.getSiguiente()
             print('------------')
-    
+
+    def regresarPatron(self,codigo):
+
+        
+        tmp = self.primero
+        x = ''
+        for i in range(self.size):
+            
+            if str(codigo) == str(tmp.getCodigo()):
+                
+               
+                x = str(tmp.getCadena())
+                
+                return x
+            elif  str(codigo) != str(tmp.getCodigo()):
+                tmp = tmp.getSiguiente()
+            else:
+                if x == '':
+
+                    return "No se encontro patron"
+            
+               

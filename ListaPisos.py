@@ -46,6 +46,31 @@ class ListaPisos:
         for i in range(self.size):
             if str(tmp.getNombre()) == str(nombre):
                 tmp.patrones.mostrarPatrones()
-                break
+                return
+            else:
+                tmp = tmp.getSiguientePiso()
+    def cadenapatrones (self,cod,name):
+        tmp = self.primero
+        for i in range(self.size):
+            if str(tmp.getNombre()) == str(name):
+                busqueda = tmp.patrones.regresarPatron(cod)
+                return busqueda
+            else:
+                tmp = tmp.getSiguientePiso()
+
+
+    def retornarnoFilas (self, name):
+        tmp = self.primero
+        for i in range(self.size):
+            if str(tmp.getNombre()) == str(name):
+                return tmp.getR()
+                
+            else :
+                tmp = tmp.getSiguientePiso()
+    def retornarnoColumnas(self, name):
+        tmp = self.primero
+        for i in range(self.size):
+            if str(tmp.getNombre()) == str(name):
+                return tmp.getC()
             else:
                 tmp = tmp.getSiguientePiso()

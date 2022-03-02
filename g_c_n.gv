@@ -1,0 +1,8 @@
+graph G {
+	bgcolor=white fontcolor=white label=agraph shape=box
+	subgraph 1 {
+		node [fillcolor=red fontcolor=white gradientangle=90 label="{☺☻|{○|W}}" shape=box style=filled]
+		anode
+		struct3 [label=" {ab|cc{dd|ee}}" color=lightgrey]
+	}
+}
