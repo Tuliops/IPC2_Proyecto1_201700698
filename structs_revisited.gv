@@ -1,20 +1,22 @@
 digraph {
-	node [bgcolor=black color=lightgrey shape=record style=filled]
-	1 [label=W]
+	node [color=black shape=record style=filled]
+	1 [label=B]
 	node [bgcolor=black color=lightgrey shape=record style=filled]
 	2 [label=W]
-	node [bgcolor=black color=lightgrey shape=record style=filled]
-	3 [label=W]
+	node [color=black shape=record style=filled]
+	3 [label=B]
 	node [bgcolor=black color=lightgrey shape=record style=filled]
 	4 [label=W]
-	node [color=black shape=record style=filled]
-	5 [label=B]
+	node [bgcolor=black color=lightgrey shape=record style=filled]
+	5 [label=W]
 	node [bgcolor=black color=lightgrey shape=record style=filled]
 	6 [label=W]
 	node [bgcolor=black color=lightgrey shape=record style=filled]
 	7 [label=W]
 	node [bgcolor=black color=lightgrey shape=record style=filled]
 	8 [label=W]
-	node [color=black shape=record style=filled]
-	9 [label=B]
+	structx [label=<
+        <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="3" CELLPADDING="3">
+        <TR><TD  COLOR = "WHITE" BGCOLOR="BLACK">     </TD><TD   COLOR = "BLACK" BGCOLOR="WHITE">     </TD><TD  COLOR = "WHITE" BGCOLOR="BLACK">     </TD><TD   COLOR = "BLACK" BGCOLOR="WHITE">     </TD></TR><TR><TD   COLOR = "BLACK" BGCOLOR="WHITE">     </TD><TD   COLOR = "BLACK" BGCOLOR="WHITE">     </TD><TD   COLOR = "BLACK" BGCOLOR="WHITE">     </TD><TD   COLOR = "BLACK" BGCOLOR="WHITE">     </TD></TR>
+        </TABLE>>]
 }

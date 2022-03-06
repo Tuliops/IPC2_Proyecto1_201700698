@@ -10,8 +10,13 @@ from ListaPisos import *
 
 from ListaPatrones import ListaPatrones
 
+from ListaColumnas import ListaColumnas
+from LF import LF
 
 #----------------------
+nColumna = ListaColumnas()
+nFila = LF()
+
 
 
 pisos = ListaPisos()
@@ -47,7 +52,7 @@ def MenuPrincipal():
 
 
            print("---->XML")
-           
+           CargarArchivo()
 
 
 
@@ -63,7 +68,8 @@ def MenuPrincipal():
         elif opcionMenu=="3":
 
 
-            print(" Mostrar Grafica ...")
+            print("----- Cambiar de un Patron a otro ...")
+            CambioPatrones()
            
 
 
@@ -106,13 +112,11 @@ def menu1():
     print ("\t1 -  Cargar Archivo XML  ")
 
 
-    print ("\t2 - Seleccionar un piso y patrón específico")
+    print ("\t2 - Mostrar  piso y patrón específico")
 
 
-    print ("\t3 - Mostrar Graficamente el Patron")
+    print ("\t3 - Cambiar de un Patron a otro ")
 
-
-    print ("\t4 - Seleccionar un nuevo código de patrón")
 
 
     print ("\t5  - salir")
@@ -277,8 +281,9 @@ def elementTree(ruta):
 
 
             piso.patrones.insertar(nombreCodigo, Codigo)
+            
         
-
+          
 
 
 def choose():
@@ -369,22 +374,21 @@ import graphviz
 
 def Graficar(cod,columans,filas):
     
-
-    print(columans)
-    print(filas)
+    contfilas = 1
+    print("Matris de ")
+    print(columans, "  Columnas")
+    print( filas, "  Filas ")
     fila =''
     cont = 0
     cn=1
-   
+    contenidoTabla = '''<TR>'''
     g = graphviz.Digraph(filename='structs_revisited.gv')
     
     for c in cod:
-        
-        
         if c == 'B':
             g.attr('node',shape='record', style='filled', color='black')
             g.node(str(cn) ,label= c)
-            
+            contenidoTabla += '<TD  COLOR = "WHITE" BGCOLOR="BLACK">     </TD>'
             
             cn += 1
             cont += 1
@@ -392,50 +396,236 @@ def Graficar(cod,columans,filas):
         elif c=='W':
             g.attr('node',shape='record', style='filled',color="lightgrey",bgcolor='black')
             g.node(str(cn) ,label= c)
-            
+            contenidoTabla += '<TD   COLOR = "BLACK" BGCOLOR="WHITE">     </TD>'
             cn += 1
             cont += 1
             
             fila += c
+
        
         if cont >= int(columans):
             print(fila)
             fila = ''
             cont = 0
-                
+            
+            
+            contenidoTabla +='</TR>'
+            if contfilas != int(filas):
+
+                contenidoTabla +='<TR>'
+                contfilas += 1
+            else:
+                break
+        
+
+   
+    g.node('structx', '''<
+        <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="3" CELLPADDING="3">
+        '''
+        +contenidoTabla+
+        '''
+        </TABLE>>''')     
             
     g.view()
     
+def CambioPatrones():
+    pisos.mostrarNombres()
+    print("ingrese al Piso a elegir")
+    nombre = input()
+    pisos.mostrarPatronesPorNombre(nombre)
+    filas = pisos.retornarnoFilas(nombre)
+    columnas = pisos.retornarnoColumnas(nombre)
+    while True:
+        print("Ingrese Codigo de Piso  ")
+        piso1  = input()
+        piso1 = pisos.cadenapatrones(piso1, nombre)
+        print(piso1)
+        if piso1 == None:
+            print("Error Codigo de Piso 1  ")
+                
+        else:
+            break
 
-"""  g = graphviz.Digraph( filename='structs_revisited.gv', node_attr={'rankdir':'BT','shape': 'record'})
-    for i in range(5):
-        g.node('struct'+str(i)+'' ,label= ' {{'+str(i+1)+'}}')
-        if str(i) is 1 :
+    while True:
             
-            g.attr('node', shape='box', style='filled', color='black',engine='sfdp')
+        print("Ingrese Codigo de Piso 2")
+        piso2 =  input()
+        piso2 = pisos.cadenapatrones(piso2, nombre)
+        print(piso2)
+        if piso2 == None:
+            print("Error en Codigo de Piso")
             
-        if str(i) is 3:
-            
-            g.attr('node', shape='box', style='filled', color='withe')
+        else:
+            break
+                
+
+    print("Todo Correcto ")
+    print("piso1 -> ", piso1)
+    print("piso2 ->", piso2)
+    Cambio(piso1, piso2,filas,columnas)
+    
+
+
+def Cambio(piso1,piso2,filas,columans):
+    print("Entra al Cambio")
+    lex1=''
+    lex2=''
+    cont = 0
+    
+    for c in range(len(piso1)):
         
-            g.node('struct'+str(i)+'' ,label= ' {{'+str(i+1)+'}}')
- 
+        
+        lex1 += piso1[c]
+        lex2 += piso2[c]
+        cont += 1
+        
+        if cont == int(columans):
+            F = nFila.addFila()
+            for l1 in lex1:
+                F.columnas.InsertElementoAColumna(l1)
 
-    g.view()"""
+            lex1 = ''
+            lex2 = ''
+            cont = 0
+    
+    tmpF = nFila.primero
+    contaP2 = 0
+    c = columans
+    c = int(c)
+    c = c-1
+    controladorColumnas = 0
+    lexColumnas = ''
+    Graficar(piso1, columans, filas)
+    for i in range(nFila.size):
+        print("Filas : ", i)
+        t =  nFila.primero.columnas.primero
+        x = t.siguiente
+        print()
+        for j in range(nFila.primero.columnas.size):
+
+            #Demtrp de la las Filas y Columnas
+            print("Columna " ,j, " : ")
+
+            x = nFila.primero.columnas.primero.siguiente
+        
+            
+            print()
+            #print("columna j +1 " , j+1, " : ", x)
+            
+            
+            if x is None:
+                pass
+            else :
+                print("BUSQUEDA DE ERRORES  ")
+                if t.getDatoColuman() == piso2[contaP2]:
+                   print("DATO EN FILA : ",i, "Y COLUMNA :" ,j)
+                   print("ES IGUAl No HAY CAMBIOS")
+                else:
+                    print("--------------------------------------------")
+                    print("DATO EN FILA : ",i, "Y COLUMNA :" ,j)
+                    print("!NO! SON IGUALES ")
+                    
+                    
+                    if (t.getDatoColuman() == x.getDatoColuman() ):
+                        
+                        print("SE DEBE  DAR VUELTA AL AZULEJO")
+                        if t.getDatoColuman() == 'W':
+                            t.setDatoColuman('B')
+                            print("CAMBIO DE 'W' A 'B " )
+                            print()
+                            print("-------------------------")
+                        elif t.getDatoColuman() =='B':
+                            t.setDatoColuman('W')
+                            print("CAMBIO DE 'B' A 'W " )
+                            print()
+                            print("-------------------------")
+                        
+                    elif controladorColumnas == c:
+                         print("SE DA VUELTA ")
+                         if t.getDatoColuman() == 'W':
+                            t.setDatoColuman('B')
+                            print("CAMBIO DE 'W' A 'B " )
+                            print()
+                            print("-------------------------")
+
+                         elif t.getDatoColuman() =='B':
+                            t.setDatoColuman('W')
+                            print("CAMBIO DE 'B' A 'W " )
+                            print()
+                            print("-------------------------")
+                        
+
+                         
+                         controladorColumnas = 0
+                         
 
 
+                    else:
+                        
+                        print("SE  MUEVE A LA IZQUIERDA ")
+                        if t.getDatoColuman() =='W':
+                            print("SE CAMBIA DE 'W' A 'B' ")
+                            t.siguiente.setDatoColuman('W')
+                            t.setDatoColuman('B')
+                            print()
+                            print("-------------------------")
+                            
+                        elif t.getDatoColuman() =='B':
+                            print("SE CAMBIA DE 'B' A 'W' ")
+                            
+                            t.siguiente.setDatoColuman('B')
+                            t.setDatoColuman('W')
+                            print()
+                            print("-------------------------")
+                            
+                        
+                print("LA FILA PRESENTA LOS CAMBIOS  ", lexColumnas)
+            #PARA GRAFICAR LOS MOVIMIENTOS CREADOS 
+            p = ''
+            z = nFila.primero.columnas.primero
+            for w in range(nFila.primero.columnas.size):
+                p +=  z.getDatoColuman()
+                z = z.getSiguienteColumna()
+              
+            Graficar(p, columans, 1)
+        
+            lexColumnas += t.getDatoColuman()     
+            contaP2 += 1
+            controladorColumnas +=1
+            t = t.siguiente
+            x = x.siguiente
+            grafColum = ''
+      
+       
+    
+        tmpF = nFila.siguiente 
+    print("GRAFICA MOVIMIENTO FINAL ")
+    Graficar(lexColumnas, columans, filas)
 
-  
-          
+from tkinter import *
+from tkinter import ttk
+from tkinter import filedialog
+import io
+from io import * 
+
+def CargarArchivo():
+        print("Boton Cargar Archivo")
+        root=Tk()
+        #Abre Ventana para Buscar el archivo .lfp 
+        archivo =  filedialog.askopenfilename(initialdir = "/") 
+            #Abre el achivo 
+        
+        root.destroy()
+        elementTree(archivo)
 
 
 if __name__ == "__main__":
 
-
-    print(xpath)
-
-
-    elementTree(xpath)
+    
+    """print(xpath)
 
 
+    elementTree(xpath)"""
+
+    
     MenuPrincipal()
